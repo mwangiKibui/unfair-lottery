@@ -1,0 +1,96 @@
+body{
+    margin:0px;
+    padding:0px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.challenge-container{
+    width:100%;
+    background-color: #fbfbfb;
+    padding: 0px;
+    margin: 0px;
+    height: 100vh;
+}
+
+.challenge-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 100vh;
+    margin: 0px auto;
+    padding: 0px;
+}
+
+.challenge-content div{
+    width: 100%;
+}
+
+#challenge-form{
+    width:50%;
+    margin:0px auto;
+    padding:10px 14px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.form-group{
+    width:100%;
+    margin:10px 0px;
+}
+
+.form-group label{
+    display: block;
+    font-weight: bold;
+    margin: 10px 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-group input{
+    width: 90%;
+    padding: 10px;
+}
+
+.form-group button{
+    border: none;
+    display: inline-block;
+    padding: 10px;
+    background-color: transparent;
+    box-shadow: 0 1px 3px 0 #d4d4d5,0 0 0 1px #d4d4d5;
+    cursor: pointer;
+}
+
+#week-winners-error{
+    color: red;
+    padding: 5px 0px;
+}
+
+#week-prizes-error{
+    color: red;
+    padding: 5px 0px;
+}
+
+#challenge-result{
+    width:50%;
+    margin: 0px auto;
+    padding: 10px 14px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 #d4d4d5,
+    0 0 0 1px #d4d4d5;
+}
+
+#challenge-result-info{
+    width:100%;
+    margin: 10px;
+    text-align: center;
+    color: #008000;
+}
+
+#challenge-result-ul{
+    list-style-type: none;
+    padding: 0px;
+}
+
+#challenge-result-ul li{
+    text-transform: capitalize;
+}
