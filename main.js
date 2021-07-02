@@ -127,9 +127,6 @@ document.getElementById("challenge-form").addEventListener("submit",function(e){
             return handleUnfairDistribution(winners,prizes);
         }
         
-        
-        
-           
     }
 })
 
