@@ -74,9 +74,6 @@ document.getElementById("challenge-form").addEventListener("submit",function(e){
 
         }
 
-        // sort the prizes
-        prizes = prizes.sort((a,b) => a - b);
-
         // find the sum of the prizes
         let prizes_sum = prizes.reduce((a,b) => a + b,0);           
 
@@ -125,13 +122,9 @@ document.getElementById("challenge-form").addEventListener("submit",function(e){
         // prizes cannot be shared by all winners
         else {
             return handleUnfairDistribution(winners,prizes);
-        }
-        
-        
-        
-           
+        }   
     }
-})
+});
 
 function findFairDistribution(winners,prizes,winner_prize){
 
@@ -162,11 +155,11 @@ function findFairDistribution(winners,prizes,winner_prize){
             // else, initialize the winner's prize with the first prize.
             winner_prizes = [prizes[j]];
 
-            // the initial sum to be the winner's prize also.
+            // the initial sum to be the current prize
             let sum = prizes[j];
 
             // iterate through all prizes from the first prize
-            for(let k = j + 1; k < prizes.length; k++){
+            for(let k = j + 1; k <= prizes.length; k++){
 
                 // check if sum is equal to the winner prize 
                 if(sum === winner_prize){
@@ -185,7 +178,7 @@ function findFairDistribution(winners,prizes,winner_prize){
                     winner_prizes = [prizes[j]];
 
                     // proceed to the next jth prize
-                    k = j + 2;
+                    continue;
                 }
                 
                 // add to the sum the current prize
@@ -223,43 +216,41 @@ function findFairDistribution(winners,prizes,winner_prize){
 };
 
 function findUnfairDistribution(winners,prizes){
-    // winners distribution object
+    // result object
     let distro = {};
 
-    // get prizes per winner
-    let no_of_prizes_per_winner = prizes.length / winners.length;
+    // Iterate through winners creating entries in the result object
+    winners.forEach((winner) => {
 
-    // copy from index
-    let copy_from_index = 0;
+        // winner entry is an empty array of prizes
+        distro[winner] = [];
 
-    // prizes of a winner
-    let winner_prizes = [];
+    });
 
-    // loop through the winners
-    for(let i = 0; i < winners.length; i++){        
+    // Initialize a winners index
+    let winners_index = 0;
 
-        // loop through the prizes
-        for(let j = copy_from_index; j < prizes.length; j+=no_of_prizes_per_winner){
+    // Iterate through the prizes.
+    for(let i = 0; i < prizes.length; i++){
 
-            // set the winner's prize
-            winner_prizes = prizes.slice(j,j + no_of_prizes_per_winner);
-
-            // increment the copy from index
-            copy_from_index += no_of_prizes_per_winner;
+        // check if winners index is at the end of winners array
+        if(winners_index === winners.length){
             
-            // stop the iteration
-            break;
-        }
+            // reset it to the start of the winners array.
+            winners_index = 0;
 
-        // append the winners prizes
-        distro[winners[i]] = winner_prizes;
+        };
 
-    };
+        // award each winner a prize
+        distro[winners[winners_index]].push(prizes[i]);
+        
 
-    // return the distribution object.
+        // increment the winners index
+        winners_index += 1;
+    }
+
     return distro;
 };
-
 
 function handleFairDistribution(winners,prizes){
 
@@ -270,7 +261,7 @@ function handleFairDistribution(winners,prizes){
     let winner_prize = prizes_sum / winners.length;
 
     // get the distribution object
-    let final_result = findFairDistribution(winners,prizes,winner_prize);
+    let final_result = findFairDistribution(winners,prizes,winner_prize);   
 
     // show distribution text
     document.getElementById("challenge-result-info").innerText = "All winners received equal share, fair distribution.";
