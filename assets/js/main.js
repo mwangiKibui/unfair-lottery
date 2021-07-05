@@ -191,6 +191,9 @@ function findFairDistribution(winners,prizes,winner_prize){
 
 function findUnfairDistribution(winners,prizes){
 
+    // sort 
+    prizes = prizes.sort((a,b) => b - a);
+
     // result object
     let distro = {};
 
@@ -207,45 +210,60 @@ function findUnfairDistribution(winners,prizes){
     
     // flow
     let inc_flow = true;
+    let flow_index = 0;
+
+    // min sum of prizes
+    let min_prize_sum = 0;
 
     // iterate through prizes
     for(let i = 0; i < prizes.length; i++){
 
-        // check if the winners index is above the num of winners
-        if(winners_index === winners.length){
+        // check if the winners index is equal to the num of winners
+        if(flow_index === winners.length){
 
             // change the flow
             inc_flow = false;
 
-            // roll back to the end of array
-            winners_index = winners.length - 1;
+            // change the winners index
+            // we get the one with the minimum value.
+            let winner_prizes = Object.values(distro);
+            min_prize_sum = winner_prizes[0].reduce((a,b) => a + b);
 
-        }
+            // loop through the winner prizes
+            for(let j = 0; j < winner_prizes.length; j++){
+                
+                let current_prizes = winner_prizes[j].reduce((a,b) => a + b);
 
-        // check if the winners index is less than zero
-        if(winners_index < 0){
-            
-            // roll back to the end of array
-            winners_index = winners.length - 1;
+                // check if the current prize sum is less than the min prize sum
 
+                if(current_prizes < min_prize_sum){
+
+                    // change the min prize sum
+                    min_prize_sum = current_prizes;
+
+                    // change the winners index
+                    winners_index = Object.values(distro).map(val => val.reduce((a,b) => a + b)).indexOf(min_prize_sum);
+                    
+                    
+                }  else {
+
+                    winners_index = Object.values(distro).map(val => val.reduce((a,b) => a + b)).indexOf(min_prize_sum);
+
+                }
+
+            }
         }
 
         // assign a prize to a winner
         distro[winners[winners_index]].push(prizes[i]);
         
-        // change the winners index based on flow
+        // only increment the winners index when we are flowing.
         if(inc_flow){
-
-            winners_index += 1;
-
-        } else {
-
-            winners_index -= 1;
-
-        }        
+            winners_index += 1; 
+            flow_index += 1;
+        }            
 
     }
-
     return distro;
 };
 
