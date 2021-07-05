@@ -1,0 +1,19 @@
+This are the guidelines for the test.
+
+All prizes must be sorted.
+
+- You start assigning from the highest.
+
+- The first winner gets the highest prize.
+
+- Then the prize is reduced as we proceed.
+
+- If the prizes are more than the winners, you start assigning the prize from the one that has the least. The one that has the least is awarded more.
+
+
+For example consider the following example:
+
+Kamau -> 1000,300 = 1300
+Jane -> 900,400 = 1300
+Joyce -> 800,500,100 = 1400
+Martin -> 700,600,200 = 1500

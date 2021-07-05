@@ -84,6 +84,9 @@ document.getElementById("challenge-form").addEventListener("submit",function(e){
         // check if the sum of prizes can be shared by all winners.
         let prizeSumDivisible = prizes_sum % winners.length === 0 ? true : false;  
 
+        // sort the prizes in a descending order.
+        prizes = prizes.sort((a,b) => b - a);
+
         // if prizes are equal
         if(allEqual){
             if(prizesIsDivisible){
@@ -187,8 +190,10 @@ function findFairDistribution(winners,prizes,winner_prize){
 };
 
 function findUnfairDistribution(winners,prizes){
+
     // result object
     let distro = {};
+
     // Iterate through winners creating entries in the result object
     winners.forEach((winner) => {
 
@@ -197,21 +202,48 @@ function findUnfairDistribution(winners,prizes){
 
     });
 
-    // Initialize a winners index
+    // winners index
     let winners_index = 0;
+    
+    // flow
+    let inc_flow = true;
 
-    // Iterate through the prizes.
+    // iterate through prizes
     for(let i = 0; i < prizes.length; i++){
-        // check if winners index is at the end of winners array
-        if(winners_index === winners.length){            
-            // reset it to the start of the winners array.
-            winners_index = 0;
 
-        };
-        // award each winner a prize
-        distro[winners[winners_index]].push(prizes[i]); 
-        // increment the winners index
-        winners_index += 1;
+        // check if the winners index is above the num of winners
+        if(winners_index === winners.length){
+
+            // change the flow
+            inc_flow = false;
+
+            // roll back to the end of array
+            winners_index = winners.length - 1;
+
+        }
+
+        // check if the winners index is less than zero
+        if(winners_index < 0){
+            
+            // roll back to the end of array
+            winners_index = winners.length - 1;
+
+        }
+
+        // assign a prize to a winner
+        distro[winners[winners_index]].push(prizes[i]);
+        
+        // change the winners index based on flow
+        if(inc_flow){
+
+            winners_index += 1;
+
+        } else {
+
+            winners_index -= 1;
+
+        }        
+
     }
 
     return distro;
